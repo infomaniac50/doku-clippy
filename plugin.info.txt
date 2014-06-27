@@ -1,4 +1,4 @@
-base   doku-clippy
+base   clippy
 author Derek Chafin
 email  infomaniac50@gmail.com
 date   2014-06-27

@@ -1,6 +1,6 @@
 <?php
 /**
- * DokuWiki Plugin clippy (Syntax Component)
+ * DokuWiki Plugin Doku Clippy (Syntax Component)
  *
  * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
  * @author  Derek Chafin <infomaniac50@gmail.com>
@@ -108,7 +108,7 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
     $flashvar = array( "text" => $data['text'] );
 
     unset( $data['text'] );
-    $renderer->doc .= html_flashobject( DOKU_PLUGIN.'doku-clippy/'.$movie, $data['width'], $data['height'], $data, $flashvars );
+    $renderer->doc .= html_flashobject( DOKU_PLUGIN.'clippy/'.$movie, $data['width'], $data['height'], $data, $flashvars );
     return true;
   }
 }
