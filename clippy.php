@@ -11,27 +11,30 @@
 
 
 
-function clippy($text='copy-me', $dir = 'lib/') { ?>
-    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-            width="110"
-            height="14"
-            id="clippy" >
-    <param name="movie" value="<?php echo $dir; ?>clippy.swf"/>
+function clippy($text='copy-me') {
+  $text = urlencode($text);
+
+  $output = <<< HTML
+  <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" class="clippy" >
+    <param name="movie" value="lib/clippy.swf"/>
     <param name="allowScriptAccess" value="always" />
     <param name="quality" value="high" />
     <param name="scale" value="noscale" />
-    <param NAME="FlashVars" value="text=<?php echo urlencode($text); ?>">
+    <param NAME="FlashVars" value="text={$text}">
     <param name="bgcolor" value="#FFFFFF">
-    <embed src="<?php echo $dir; ?>clippy.swf"
-           width="110"
-           height="14"
-           name="clippy"
-           quality="high"
-           allowScriptAccess="always"
-           type="application/x-shockwave-flash"
-           pluginspage="http://www.macromedia.com/go/getflashplayer"
-           FlashVars="text=<?php echo urlencode($text); ?>"
-           bgcolor="#FFFFFF"
+    <embed src="lib/clippy.swf"
+      width="110"
+      height="14"
+      name="clippy"
+      quality="high"
+      allowScriptAccess="always"
+      type="application/x-shockwave-flash"
+      pluginspage="http://www.macromedia.com/go/getflashplayer"
+      FlashVars="text={$text}"
+      bgcolor="#FFFFFF"
     />
-    </object>
-<?php } ?>
+  </object>
+HTML;
+
+  return $output;
+}
