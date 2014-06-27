@@ -9,8 +9,8 @@
 // must be run within Dokuwiki
 if ( !defined( 'DOKU_INC' ) ) die();
 
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'syntax.php');
+if ( !defined( 'DOKU_PLUGIN' ) ) define( 'DOKU_PLUGIN', DOKU_INC.'lib/plugins/' );
+require_once DOKU_PLUGIN.'syntax.php';
 
 class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
   /**
@@ -81,10 +81,10 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
     //     bgcolor="#FFFFFF"
     //   />
     // </object>
-    if (preg_match('/\<clippy\>(.*)\<\/clippy\>/is', $match, $result) === 1) {
+    if ( preg_match( '/\<clippy\>(.*)\<\/clippy\>/is', $match, $result ) === 1 ) {
       $text = $result[1];
     }
-    elseif (preg_match('/\[clippy\s(.*)\]/is', $match, $result) === 1) {
+    elseif ( preg_match( '/\[clippy\s(.*)\]/is', $match, $result ) === 1 ) {
       $text = $result[1];
     }
     else {
