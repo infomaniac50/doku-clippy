@@ -9,6 +9,9 @@
 // must be run within Dokuwiki
 if ( !defined( 'DOKU_INC' ) ) die();
 
+if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
+require_once(DOKU_PLUGIN.'syntax.php');
+
 class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
   /**
    *
@@ -24,7 +27,7 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
    * @return string Paragraph type
    */
   public function getPType() {
-    return 'normal';
+    return 'block';
   }
   /**
    *
@@ -41,7 +44,7 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
    * @param string  $mode Parser mode
    */
   public function connectTo( $mode ) {
-    $this->Lexer->addSpecialPattern( '<clippy>\n.*?\n</clippy>', $mode, 'plugin_clippy' );
+    $this->Lexer->addSpecialPattern( '<clippy>.*?</clippy>', $mode, 'plugin_clippy' );
   }
 
   // public function postConnect() {
@@ -77,9 +80,9 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
     //     bgcolor="#FFFFFF"
     //   />
     // </object>
-
-    $lines = explode( $match, "\n" );
-    $text = array_shift( $lines );
+    $text = $match;
+    $text = str_replace('<clippy>', '', $text);
+    $text = str_replace('</clippy>', '', $text);
 
     $data = array(
       'width'  => 110,
@@ -105,10 +108,10 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
   public function render( $mode, Doku_Renderer &$renderer, $data ) {
     if ( $mode != 'xhtml' ) return false;
     $movie = "lib/clippy.swf";
-    $flashvar = array( "text" => $data['text'] );
+    $flashvars = array( "text" => $data['text'] );
 
     unset( $data['text'] );
-    $renderer->doc .= html_flashobject( DOKU_PLUGIN.'clippy/'.$movie, $data['width'], $data['height'], $data, $flashvars );
+    $renderer->doc .= html_flashobject( DOKU_BASE.'lib/plugins/clippy/'.$movie, $data['width'], $data['height'], $data, $flashvars );
     return true;
   }
 }
