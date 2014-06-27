@@ -45,6 +45,7 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
    */
   public function connectTo( $mode ) {
     $this->Lexer->addSpecialPattern( '<clippy>.*?</clippy>', $mode, 'plugin_clippy' );
+    // $this->Lexer->addSpecialPattern( '[clippy.*?]', $mode, 'plugin_clippy' );
   }
 
   // public function postConnect() {
@@ -80,9 +81,15 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
     //     bgcolor="#FFFFFF"
     //   />
     // </object>
-    $text = $match;
-    $text = str_replace('<clippy>', '', $text);
-    $text = str_replace('</clippy>', '', $text);
+    if (preg_match('/\<clippy\>(.*)\<\/clippy\>/is', $match, $result) === 1) {
+      $text = $result[1];
+    }
+    elseif (preg_match('/\[clippy\s(.*)\]/is', $match, $result) === 1) {
+      $text = $result[1];
+    }
+    else {
+      return $data;
+    }
 
     $data = array(
       'width'  => 110,
