@@ -41,13 +41,12 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
    * @param string  $mode Parser mode
    */
   public function connectTo( $mode ) {
-    // $this->Lexer->addSpecialPattern('<CLIPPY>',$mode,'plugin_clippy');
-    $this->Lexer->addEntryPattern( '<clippy.*?>(?=.*?</clippy>)', $mode, 'plugin_clippy' );
+    $this->Lexer->addSpecialPattern('<clippy>\n.*?\n</clippy>',$mode,'plugin_clippy');
   }
 
-  public function postConnect() {
-    $this->Lexer->addExitPattern( '</clippy>', 'plugin_clippy' );
-  }
+  // public function postConnect() {
+  //   $this->Lexer->addExitPattern( '</clippy>', 'plugin_clippy' );
+  // }
 
   /**
    * Handle matches of the clippy syntax
@@ -59,7 +58,38 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
    * @return array Data for the renderer
    */
   public function handle( $match, $state, $pos, Doku_Handler &$handler ) {
-    $data = array();
+  // <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" class="clippy" >
+  //   <param name="movie" value="lib/clippy.swf"/>
+  //   <param name="allowScriptAccess" value="always" />
+  //   <param name="quality" value="high" />
+  //   <param name="scale" value="noscale" />
+  //   <param NAME="FlashVars" value="text={$text}">
+  //   <param name="bgcolor" value="#FFFFFF">
+  //   <embed src="lib/clippy.swf"
+  //     width="110"
+  //     height="14"
+  //     name="clippy"
+  //     quality="high"
+  //     allowScriptAccess="always"
+  //     type="application/x-shockwave-flash"
+  //     pluginspage="http://www.macromedia.com/go/getflashplayer"
+  //     FlashVars="text={$text}"
+  //     bgcolor="#FFFFFF"
+  //   />
+  // </object>
+
+    $lines = explode($match, "\n");
+    $text = array_shift($lines);
+
+    $data = array(
+      'width'  => 110,
+      'height' => 14,
+      'allowScriptAccess' => 'always',
+      'quality' => 'high',
+      'scale' => 'noscale',
+      'bgcolor' => '#FFFFFF',
+      'text' => $text,
+    );
 
     return $data;
   }
@@ -74,7 +104,11 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
    */
   public function render( $mode, Doku_Renderer &$renderer, $data ) {
     if ( $mode != 'xhtml' ) return false;
+    $movie = "lib/clippy.swf";
+    $flashvar = array("text" => $data['text']);
 
+    unset($data['text']);
+    $renderer->doc .= html_flashobject(DOKU_PLUGIN.'doku-clippy/'.$movie, $data['width'], $data['height'], $data, $flashvars);
     return true;
   }
 }
