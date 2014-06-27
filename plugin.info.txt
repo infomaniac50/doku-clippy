@@ -1,0 +1,7 @@
+base   clippy
+author Derek Chafin
+email  infomaniac50@gmail.com
+date   2014-06-27
+name   clippy plugin
+desc   Copy text to the clipboard
+url    https://github.com/infomaniac50/doku-clippy
