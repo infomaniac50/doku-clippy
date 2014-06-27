@@ -1,6 +1,6 @@
 clippy Plugin for DokuWiki
 
-Copy text to the clipboard
+Copy text to the clipboard. Once this plugin is installed, you can add a pretty Clippy clip.
 
 All documentation for this plugin can be found at
 https://github.com/infomaniac50/doku-clippy
