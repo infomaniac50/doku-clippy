@@ -61,7 +61,7 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
    * @param Doku_Handler $handler The handler
    * @return array Data for the renderer
    */
-  public function handle( $match, $state, $pos, Doku_Handler &$handler ) {
+  public function handle( $match, $state, $pos, Doku_Handler $handler ) {
     // <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" class="clippy" >
     //   <param name="movie" value="lib/clippy.swf"/>
     //   <param name="allowScriptAccess" value="always" />
@@ -112,7 +112,7 @@ class syntax_plugin_clippy extends DokuWiki_Syntax_Plugin {
    * @param array   $data     The data from the handler() function
    * @return bool If rendering was successful.
    */
-  public function render( $mode, Doku_Renderer &$renderer, $data ) {
+  public function render( $mode, Doku_Renderer $renderer, $data ) {
     if ( $mode != 'xhtml' ) return false;
     $movie = "lib/clippy.swf";
     $flashvars = array( "text" => $data['text'] );
